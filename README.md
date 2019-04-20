@@ -6,7 +6,7 @@
 
 Dentre algumas discussões com o José(Zé) envolvendo **OTA**, foi contastado que os esquemas de partição disponiveis para o ESP32 na IDE do Arduino(integração [arduino-esp32](https://github.com/espressif/arduino-esp32)) não tinha disponível uma partição valiosa denominada *factory*!
 
-Essa partição podemos dizer que pode ser considerada *'padrão de fábrica'*, ou seja, é o último firmware gravado via cabo em seu esp32. Toda atualização utilizando OTA será gravado nas partições *ota0* e *ota1*.
+Essa partição podemos dizer que pode ser considerada *'padrão de fábrica'*, ou seja, é o último firmware gravado via cabo em seu esp32. Toda atualização utilizando OTA será gravado nas partições *app0* e *app1*.
 
 Então no lugar de termos 2 partições ota0 e ota1 que o esquema padrão(default) nos trás, nos teremos 3 partições. Cada uma terá 1MB de armazenamento para seu firmare - é claro que com essa opção, se terá um custo! Você terá um espaço de armazenamneto menor para seu firmware como consequência.
 
@@ -17,6 +17,8 @@ Caso você fique sem comunicação alguma, pode-se adicionar até um push button
 Bem, chega de enrolação, abaixo seguem alguns passos e informações para poder ser adicionado essa nova partição ao seu ambiente.
 
 * Esquema default
+
+Esse é o schema que geralmente é utilizado durante as gravações de firmware. Portanto todas gravações serão sendo feitas e alternadas entre app0 e app1.
 
 **Name**|**Type**|**SubType**|**Offset**|**Size**|**Flags**
 :-----:|:-----:|:-----:|:-----:|:-----:|:-----:
@@ -37,11 +39,7 @@ Para ficar mais claro o fluxo de atualizações, acabei achando o diagrama(sem q
 
 * Passo 1
 
-Crie o arquivo CSV no diretório: **/home/dzuqueto/Arduino/hardware/espressif/esp32/tools/partitions**
-
-O caminho do arquivo irá variar dependendo do seu sistema operacional!
-
-O arquivo de exemplo para incluir a partição **factory** seria como é demonstrado na tabela abaixo:
+Crie o arquivo CSV no diretório conforme modelo descrito abaixo: **/home/dzuqueto/Arduino/hardware/espressif/esp32/tools/partitions/factory.csv**
 
 **Name**|**Type**|**SubType**|**Offset**|**Size**|**Flags**
 :-----:|:-----:|:-----:|:-----:|:-----:|:-----:
@@ -53,9 +51,13 @@ app1|     app|  ota_1|0x210000|1M|
 
 Caso deseje fazer o download do arquivo, segue o link: **[factory.csv](https://raw.githubusercontent.com/douglaszuqueto/esp32-ota/master/.github/factory.csv)**
 
+Para mais detalhes sobre partições e particionamento, segue link da documentação: [Link](https://docs.espressif.com/projects/esp-idf/en/latest/api-guides/partition-tables.html)
+
+**Obs:** O caminho do arquivo irá variar dependendo do seu sistema operacional!
+
 * Passo 2
 
-Para incluir a opção do nova schema de partição, se faz necessário a edição do seguinte arquivo:  **/home/dzuqueto/Arduino/hardware/espressif/esp32/boards.txt**
+Para incluir a opção do novo schema criado(Factory), se faz necessário a edição do seguinte arquivo:  **/home/dzuqueto/Arduino/hardware/espressif/esp32/boards.txt**
 
 Levando-se em consideração que a placa alvo seja o modelo **ESP32 Dev Module**, o que você verá no arquivo será algo como:
 
@@ -84,8 +86,6 @@ esp32.menu.PartitionScheme.factory=Factory
 esp32.menu.PartitionScheme.factory.build.partitions=factory
 esp32.menu.PartitionScheme.factory.upload.maximum_size=1024000
 ```
-
-**Obs:** As linhas adicionadas, são referentes a configuração da placa *ESP32 Dev Module*
 
 * Resultado final na IDE
 
