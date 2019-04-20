@@ -93,7 +93,7 @@ esp32.menu.PartitionScheme.factory.upload.maximum_size=1024000
 
 ## Blink
 
-```arduino
+```c
 #include "freertos/FreeRTOS.h"
 #include "esp_ota_ops.h"
 
@@ -124,7 +124,7 @@ void loop() {
 
 Com a função *esp_ota_get_running_partition()* você sempre saberá em que partição seu firmware estará rodando!
 
-```arduino
+```c
 String getRunningPartition() {
   const esp_partition_t* partition = esp_ota_get_running_partition();
   Serial.printf("Partition: %s\n", partition->label);
