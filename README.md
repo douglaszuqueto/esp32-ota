@@ -4,11 +4,11 @@
 
 ## Esquema de partições
 
-Dentre algumas discussões com o José(Zé) envolvendo **OTA**, foi contastado que os esquemas de partição disponiveis para o ESP32 na IDE do Arduino(integração [arduino-esp32](https://github.com/espressif/arduino-esp32)) não tinha disponível uma partição valiosa denominada *factory*!
+Dentre algumas discussões com o José(Zé) envolvendo **OTA**, foi 'descoberto' que os esquemas de partição disponíveis para o ESP32 na IDE do Arduino(integração [arduino-esp32](https://github.com/espressif/arduino-esp32)) não tinha disponível uma partição valiosa denominada *factory*!
 
-Essa partição podemos dizer que pode ser considerada *'padrão de fábrica'*, ou seja, é o último firmware gravado via cabo em seu esp32. Toda atualização utilizando OTA será gravado nas partições *app0* e *app1*.
+Essa partição podemos dizer que pode ser considerada como *'padrão de fábrica'*, ou seja, é o último firmware gravado via cabo em seu esp32. Toda atualização utilizando OTA será gravado nas partições *app0* e *app1*.
 
-Então no lugar de termos 2 partições ota0 e ota1 que o esquema padrão(default) nos trás, nos teremos 3 partições. Cada uma terá 1MB de armazenamento para seu firmare - é claro que com essa opção, se terá um custo! Você terá um espaço de armazenamneto menor para seu firmware como consequência.
+Então no lugar de termos 2 partições ota0 e ota1 que o esquema padrão(default) nos trás, nos teremos 3 partições. Cada uma terá 1MB de armazenamento para seu firmware - é claro que com essa opção, se terá um custo! Você terá um espaço de armazenamneto menor para seu firmware como consequência.
 
 Então imagine um cenário onde você utilize OTA e por algum motivo seu firmware bugou ou algo equivalente, portanto talvez sua última chance seria voltar para a partição factory! Nessa partição o Zé deu a ideia de deixar um firmare bem cru contendo apenas uma camada de OTA para aceitar novos updades.
 
