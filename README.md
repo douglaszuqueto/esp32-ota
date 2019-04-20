@@ -2,7 +2,7 @@
 
 ## Ìndice
 
-## Esquema de partições
+## Esquema de partições (em testes)
 
 Dentre algumas discussões com o José(Zé) envolvendo **OTA**, foi 'descoberto' que os esquemas de partição disponíveis para o ESP32 na IDE do Arduino(integração [arduino-esp32](https://github.com/espressif/arduino-esp32)) não tinha disponível uma partição valiosa denominada *factory*!
 
