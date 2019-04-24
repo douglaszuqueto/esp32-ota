@@ -100,7 +100,7 @@ Desde então começamos a fazer uma rotina de muitos testes para tentar encontra
 Observe novamente o diagrama de fluxo abaixo: 
 ![img](https://cdn-images-1.medium.com/max/800/1*s320_ezWr_0EUvkg5Y9Edg.png)
 
-O que eu havia mencionado la no inicio não 'acontecendo': "é o último firmware gravado via cabo em seu esp32.". O que deu para se entender é que, como a IDE não estava preparada para ter uma partição factory, alguns binários essenciais para o funcionamento do ESP32 também não estavam.
+O que eu havia mencionado la no inicio não estava 'acontecendo': "é o último firmware gravado via cabo em seu esp32.". O que deu para se entender é que, como a IDE não estava preparada para ter uma partição factory, alguns binários essenciais para o funcionamento do ESP32 também não estavam.
 
 Então o que de fato acontecia? Com os partições geradas o upload era feito normalmente, ficando hospedado e rodando na partição factory. Quando era feita uma atualização OTA por meio de HTTP, o fluxo ia para app0 e dava boot na partição app0, tudo correto! O problema estava em fazer upload novamente via IDE do Arduino... o firmware era gravado normalmente, porém o boot iniciava em qual partição? app0 ou app1 kkk.
 
@@ -115,9 +115,9 @@ Apenas 2 da lista acima eram gerados a cada build do firmware: Partitions e App 
 
 Bootloader e otadata sempre eram os mesmos. Foi ai que surgiu uma grande curiosidade e possível causa do problema, pois utilizando ESP-IDF, em todo build os 4 arquivos sempre eram gerados.
 
-Então na rotina de testes, eu peguei os 2 arquivos(os fixos) gerados e comecei fiz a substituição na pasta onde estavam armazenados, então ai eu consegui desmistificar o grande mistério. O grande vilão da jogada era o boot_app0.bin, como ele era fixo e não existia partição factory, certamente algo dentro dele se fazia essencial para o correto fluxo de atualizações.
+Então na rotina de testes, eu peguei os 2 arquivos(os fixos) gerados e realizei a substituição na pasta onde estavam armazenados, então ai eu consegui desmistificar o grande mistério. O grande vilão da jogada era o **boot_app0.bin**, como ele era fixo e não existia partição factory, certamente algo dentro dele se fazia essencial para o correto fluxo de atualizações.
 
-Mas e agora, como resolver essa treta?
+Mas e agora, como resolver esse 'pequeno' problema?
 
 Vamos la, os 2 arquivos mencionados ficam dentro da pasta onde suas ferramentas para usar esp32 estão instaladas.
 
@@ -147,7 +147,9 @@ O que precisa ser alterado é apenas o boot_app0. Segue um gabarito da pasta *pa
 
 Pode ver que eu fiz algumas cópias de segurança para não perder o arquivo original. Caso você deseja efetuar todo esse processo segue o link de download do binário: [boot_app0.bin](https://raw.githubusercontent.com/douglaszuqueto/esp32-ota/master/.github/boot_app0.bin)
 
-Depois de todas essas modificações, eu refiz todos os testes, inclusive com a partição padrão, e mesmo com a alteração do arquivo, tudo funcionou perfeitamente! Recomendo que teste o exemplo que deixei abaixo - Blink OTA
+Depois de todas essas modificações, eu refiz todos os testes, inclusive com a partição padrão, e mesmo com a alteração do arquivo, tudo funcionou perfeitamente! Recomendo que teste o exemplo que deixei abaixo - [Blink OTA](https://github.com/douglaszuqueto/esp32-ota#blink---ota)
+
+Eu acredito que, caso você faça todo esse processo tudo irá funcionar corretamente. Mas caso não ocorra, pode me chamar no telegram ou no [Grupo do FernandoK(Telegram)](https://t.me/fernandok_oficial) onde toda essa discussão se desenrolou.
 
 ## Blink
 
@@ -156,7 +158,6 @@ Depois de todas essas modificações, eu refiz todos os testes, inclusive com a 
 #include "esp_ota_ops.h"
 
 #define LED_BUILTIN 2
-
 
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
@@ -197,7 +198,7 @@ Abaixo segue um exemplo de OTA utilizando a biblioteca que o [Zé](https://www.f
 
 Fica também uma referéncia ao post que ele fez no Grupo Arduino Brasil falando um pouco sobre sua biblioteca: [link](https://www.facebook.com/groups/arduino.br/permalink/2285458301493259/)
 
-```
+```c
 #include <http.h>
 #include <WiFi.h>
 #include "esp_ota_ops.h"
