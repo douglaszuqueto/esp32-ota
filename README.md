@@ -8,7 +8,7 @@ Dentre algumas discussões com o José(Zé) envolvendo **OTA**, foi 'descoberto'
 
 Essa partição podemos dizer que pode ser considerada como *'padrão de fábrica'*, ou seja, é o último firmware gravado via cabo em seu esp32. Toda atualização utilizando OTA será gravado nas partições *app0* e *app1*.
 
-Então no lugar de termos 2 partições ota0 e ota1 que o esquema padrão(default) nos trás, nos teremos 3 partições. Cada uma terá 1MB de armazenamento para seu firmware - é claro que com essa opção, se terá um custo! Você terá um espaço de armazenamneto menor para seu firmware como consequência.
+Então no lugar de termos 2 partições ota0 e ota1 que o esquema padrão(default) nos trás, nos teremos 3 partições. Cada uma terá 1MB de armazenamento para seu firmware - é claro que com essa opção, se terá um custo! Você terá um espaço de armazenamento menor para seu firmware como consequência.
 
 Então imagine um cenário onde você utilize OTA e por algum motivo seu firmware bugou ou algo equivalente, portanto talvez sua última chance seria voltar para a partição factory! Nessa partição o Zé deu a ideia de deixar um firmare bem cru contendo apenas uma camada de OTA para aceitar novos updades.
 
@@ -104,7 +104,7 @@ O que eu havia mencionado la no inicio não estava 'acontecendo': "é o último 
 
 Então o que de fato acontecia? Com os partições geradas o upload era feito normalmente, ficando hospedado e rodando na partição factory. Quando era feita uma atualização OTA por meio de HTTP, o fluxo ia para app0 e dava boot na partição app0, tudo correto! O problema estava em fazer upload novamente via IDE do Arduino... o firmware era gravado normalmente, porém o boot iniciava em qual partição? app0 ou app1 kkk.
 
-Só depois de inumeros testes comecei a entender os problemas e as peças começaram a se encaixar. No processo de build/upload 4 arquivos binários são gerados/utilizados e os mesmos são enviados para o ESP32, cada um no seu respectivo endereço de memória.
+Só depois de inúmeros testes comecei a entender os problemas e as peças começaram a se encaixar. No processo de build/upload 4 arquivos binários são gerados/utilizados e os mesmos são enviados para o ESP32, cada um no seu respectivo endereço de memória.
 
 * Bootloader
 * Otadata ( boot_app0.bin )
