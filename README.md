@@ -1,6 +1,6 @@
 # ESP32 - OTA
 
-## Ìndice
+## Índice
 
 ## Esquema de partições (em testes)
 
