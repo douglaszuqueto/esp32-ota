@@ -18,7 +18,7 @@ Bem, chega de enrolação, abaixo seguem alguns passos e informações para pode
 
 * Esquema default
 
-Esse é o schema que geralmente é utilizado durante as gravações de firmware. Portanto todas gravações serão sendo feitas e alternadas entre app0 e app1.
+Esse é o schema que geralmente é utilizado durante as gravações de firmware. Portanto todas gravações serão feitas e alternadas entre app0 e app1.
 
 **Name**|**Type**|**SubType**|**Offset**|**Size**|**Flags**
 :-----:|:-----:|:-----:|:-----:|:-----:|:-----:
